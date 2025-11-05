@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KangaPro AI - Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+      --bg-dark: #0A1D37; 
+      --bg-light: #1E3A5F;
+      --neon-blue: #00D9FF; 
+      --cyan: #00E5FF; 
+      --white: #FFFFFF; 
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      height: 100vh; /* Altura total da tela */
+      overflow: hidden; /* Evita scroll na página inteira */
+    }
+    
+    header {
+      padding: 1rem 5%;
+      background: rgba(10, 29, 55, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+      z-index: 1000;
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo { display: flex; align-items: center; text-decoration: none; }
+    .logo-img { width: 40px; height: 40px; margin-right: 10px; filter: drop-shadow(0 0 6px var(--neon-blue)); border-radius: 50%; }
+    .logo-text { color: var(--white); font-weight: 800; font-size: 1.6rem; }
+    .logo-text span { color: var(--cyan); }
+    .logo-subtext { color: var(--cyan); font-size: 0.9rem; margin-left: 1rem; }
+
+    .back-btn {
+      background: var(--neon-blue);
+      color: var(--bg-dark);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,217,255,0.5);
+      transition: all 0.3s ease;
+    }
+    .back-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0,217,255,0.8);
+    }
+
+    
+    .chat-container {
+      flex: 1; /* Ocupa todo o espaço restante */
+      overflow-y: auto; /* Permite scroll SÓ nas mensagens */
+      padding: 2rem 5%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 18px;
+      border-radius: 20px;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      word-wrap: break-word;
+    }
+
+    .message.user {
+      background: var(--neon-blue);
+      color: var(--bg-dark);
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+
+    .message.bot {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      border: 1px solid rgba(0, 217, 255, 0.3);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+    
+    /* Converte newlines (\n) do Gemini em quebras de linha */
+    .message.bot pre {
+        white-space: pre-wrap;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .message.bot strong {
+        color: var(--cyan);
+    }
+    
+    .message.bot ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    .chat-composer {
+      padding: 1rem 5%;
+      background: rgba(10, 29, 55, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(0, 217, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .composer-form {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+      border: 1px solid rgba(0,217,255,0.4);
+      border-radius: 50px;
+      padding: 14px 20px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+    }
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0,217,255,0.3);
+    }
+
+    .send-button {
+      background: var(--neon-blue);
+      color: var(--bg-dark);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,217,255,0.5);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .send-button:hover {
+      transform: scale(1.1);
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="KangaPro AI" class="logo-img">
+        <div class="logo-text">KangaPro<span>AI</span></div>
+      </a>
+      <div class="logo-subtext">Agente de Anteprojetos</div>
+    </div>
+    <button class="back-btn" onclick="window.location.href='index.html'">Voltar</button>
+  </header>
+
+  <main class="chat-container" id="chat-container">
+    <div class="message bot">
+      Olá! Eu sou o KangaPro AI. Minha missão é ajudar você a estruturar seu Anteprojeto.
+  </main>
+
+  <footer class="chat-composer">
+    <form class="composer-form" id="chat-form">
+      <input 
+        type="text" 
+        id="chat-input"
+        class="chat-input" 
+        placeholder="Qual é o tema do seu projeto?..." 
+        required>
+      <button type="submit" class="send-button" aria-label="Enviar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--bg-dark);"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </footer>
+
+  <script>
+    //   LÓGICA DO CHAT 
+    
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatContainer = document.getElementById('chat-container');
+
+    // O endereço do seu servidor backend
+    const BACKEND_URL = 'http://localhost:3000/chat';
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Impede o recarregamento da página
+      
+      const userInput = chatInput.value.trim();
+      if (!userInput) return; // Não envia mensagens vazias
+
+      // 1. Mostra a mensagem do usuário na tela
+      appendMessage('user', userInput);
+      chatInput.value = ''; // Limpa o input
+
+      // 2. Mostra um indicador de "digitando"
+      const typingIndicator = appendMessage('bot', 'Digitando...');
+
+      try {
+        // 3. Envia a mensagem para o Backend
+        const response = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: userInput }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro na resposta do servidor.');
+        }
+
+        const data = await response.json();
+        
+        // 4. Substitui o "Digitando..." pela resposta real da IA
+        // O Gemini usa markdown (negrito **), então sei .innerHTML
+        // Também converti \n (nova linha) para <br>
+        const formattedReply = data.reply
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito
+                                    .replace(/\n/g, '<br>'); // Quebra de linha
+
+        typingIndicator.innerHTML = `<pre>${data.reply}</pre>`; // 'pre' preserva a formatação
+
+      } catch (error) {
+        console.error('Erro ao contatar o backend:', error);
+        typingIndicator.innerHTML = "Desculpe, não consegui me conectar. Tente novamente.";
+      }
+    });
+
+    /**
+     * Adiciona uma nova mensagem ao container do chat
+     * @param {'user' | 'bot'} sender - Quem enviou
+     * @param {string} text - O texto da mensagem
+     * @returns {HTMLElement} - O elemento da mensagem criado
+     */
+    function appendMessage(sender, text) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message', sender);
+      messageElement.innerHTML = text; // Usamos innerHTML para o "Digitando..." e a resposta formatada
+      
+      chatContainer.appendChild(messageElement);
+      
+      // Rola para a mensagem mais recente
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      return messageElement;
+    }
+  </script>
+
+</body>
+</html>

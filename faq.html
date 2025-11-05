@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="title">KangaPro AI - FAQ Completo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0A1D37; --neon: #00D9FF; --white: #fff; --gray: #B0E0E6; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0A1D37, #1E3A5F); color: white; min-height: 100vh; }
+    header { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(10,29,55,0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; z-index: 100; }
+    .logo { display: flex; align-items: center; font-weight: 700; font-size: 1.8rem; color: white; text-decoration: none; }
+    .logo img { width: 48px; height: 48px; margin-right: 10px; border-radius: 50%; filter: drop-shadow(0 0 6px var(--neon)); }
+    .logo span { color: var(--neon); }
+    .back-btn { background: var(--neon); color: #0A1D37; padding: 0.6rem 1.2rem; border-radius: 50px; font-weight: 600; cursor: pointer; }
+    .lang-select { background: rgba(255,255,255,0.1); border: 1px solid var(--neon); color: white; padding: 0.4rem; border-radius: 8px; font-size: 0.9rem; }
+
+    .container { padding: 6rem 5% 3rem; max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 2.8rem; text-align: center; margin-bottom: 2rem; background: linear-gradient(90deg, white, var(--neon)); -webkit-background-clip: text; color: transparent; }
+    .faq-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(0,217,255,0.3); border-radius: 15px; padding: 1.5rem; margin: 1rem 0; }
+    .faq-item h3 { color: var(--neon); margin-bottom: 0.8rem; font-size: 1.3rem; }
+    .faq-item p { color: var(--gray); line-height: 1.7; font-size: 1.05rem; }
+
+    .faq-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 3rem 0 2rem;
+      padding: 1.5rem;
+      background: rgba(10,29,55,0.6);
+      border-radius: 20px;
+      border: 1px solid rgba(0,217,255,0.3);
+    }
+    .faq-actions .back-btn,
+    .faq-actions .start-btn {
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      text-align: center;
+    }
+    .faq-actions .back-btn {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--neon);
+    }
+    .faq-actions .back-btn:hover {
+      background: var(--neon);
+      color: #0A1D37;
+    }
+    .faq-actions .start-btn {
+      background: var(--neon);
+      color: #0A1D37;
+      border: none;
+    }
+    .faq-actions .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0,217,255,0.7);
+    }
+
+    footer { text-align: center; padding: 2rem; color: var(--gray); font-size: 0.9rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="assets/logo.png" alt="Logo KangaPro">
+      Kanga<span>Pro</span> AI
+    </a>
+    <div>
+      <select class="lang-select" onchange="changeLanguage(this.value)">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+      </select>
+      <button class="back-btn" onclick="history.back()" data-lang="back">Voltar</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 data-lang="faq-title">Perguntas Frequentes</h1>
+
+    <!-- 20 PERGUNTAS -->
+    <div class="faq-item">
+      <h3 data-lang="faq1-q">1. Posso copiar o texto gerado pela IA?</h3>
+      <p data-lang="faq1-a"><strong>Não!</strong> A KangaPro AI é um guia de aprendizado. Use as sugestões para construir seu próprio texto. Copiar é plágio e vai contra nossa ética.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq2-q">2. A IA segue as normas da ABNT?</h3>
+      <p data-lang="faq2-a">Sim! Todas as orientações seguem as NBRs mais recentes: 14724 (trabalhos acadêmicos), 6023 (referências), 10520 (citações), entre outras.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq3-q">3. Funciona sem internet?</h3>
+      <p data-lang="faq3-a">Não! Precisa de internet para o funcionamento. Mas sua conversa é salva localmente no navegador.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq4-q">4. Posso usar no celular?</h3>
+      <p data-lang="faq4-a">Sim! Totalmente responsivo. Funciona em Android, iPhone e tablets.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq5-q">5. É grátis para sempre?</h3>
+      <p data-lang="faq5-a">Sim! Uso ilimitado, sem cadastro, sem login. Totalmente gratuito.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq6-q">6. A IA gera o TCC inteiro?</h3>
+      <p data-lang="faq6-a"><strong>Nunca!</strong> Isso é antiético. A IA orienta, ensina e dá exemplos. O trabalho final é seu.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq7-q">7. Posso exportar em PDF?</h3>
+      <p data-lang="faq7-a">Por agora Não! Mas essa funcionalidade será adicionada em breve.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq8-q">8. Quem somos nós?</h3>
+      <p data-lang="faq8-a">Somos <strong>PROGRAMATHORs,</strong> uma Startup voltada para o desenvolvimento de soluções digitais, inovadoras e criativas, com foco a solucionar problemas reais evidentes na sociedade.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq9-q">9. A <strong>KangaPro AI</strong> Funciona para mestrado ou doutorado?</h3>
+      <p data-lang="faq9-a">Sim! Adaptamos linguagem e profundidade conforme o nível acadêmico.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq10-q">10. Posso salvar meu progresso?</h3>
+      <p data-lang="faq10-a">Sim! A conversa é salva automaticamente no navegador. Ao voltar, continua de onde parou.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq11-q">11. A IA pode revisar meu texto?</h3>
+      <p data-lang="faq11-a">Sim! Cole seu rascunho no chat e peça sugestões de melhoria, coerência e ABNT.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq12-q">12. É seguro? Meus dados são salvos?</h3>
+      <p data-lang="faq12-a">Sim! Nada é enviado a servidores. Tudo fica no seu navegador (LocalStorage).</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq13-q">13. Posso usar em mais de um dispositivo?</h3>
+      <p data-lang="faq13-a">Sim, mas a conversa não sincroniza. Cada dispositivo salva localmente.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq14-q">14. A IA entende português de Portugal?</h3>
+      <p data-lang="faq14-a">Sim! Aceita PT-BR e PT-PT. Responde no mesmo padrão que você usar.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq15-q">15. Posso citar a KangaPro no meu TCC?</h3>
+      <p data-lang="faq15-a">Sim! Sugerimos: "<strong>KangaPro AI (2025).</strong> Ferramenta de orientação acadêmica, concebida por <strong>PROGRAMATHORs.</strong>"</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq16-q">16. A IA gera referências bibliográficas?</h3>
+      <p data-lang="faq16-a">Sim! Em formato ABNT. Peça: "Monte 5 referências sobre educação inclusiva".</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq17-q">17. Funciona para cursos técnicos?</h3>
+      <p data-lang="faq17-a">Sim! Adaptamos para relatórios, projetos integradores e trabalhos de conclusão de curso técnico.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq18-q">18. Posso pedir um cronograma de estudos?</h3>
+      <p data-lang="faq18-a">Sim! A IA monta um plano semanal com prazos realistas.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq19-q">19. A IA pode ajudar com a defesa oral?</h3>
+      <p data-lang="faq19-a">Sim! Treine com perguntas simuladas e receba feedback sobre clareza e tempo.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3 data-lang="faq20-q">20. Por que escolher a KangaPro AI?</h3>
+      <p data-lang="faq20-a">Porque somos <strong>éticos, gratuitos, atualizados com ABNT e focados no seu aprendizado real</strong>.</p>
+    </div>
+
+    <!-- BOTÕES APÓS A ÚLTIMA PERGUNTA -->
+    <div class="faq-actions">
+      <a href="index.html" class="back-btn" data-lang="back-home">← Voltar para Página Principal</a>
+      <a href="chat.html" class="start-btn" data-lang="start-now">Começar Agora</a>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <p data-lang="footer">© 2025 KangaPro AI. PROGRAMATHORs. All right reserved*.</p>
+  </footer>
+
+  <!-- TRADUÇÃO -->
+  <script>
+    const translations = {
+      pt: {
+        'title': 'KangaPro AI - FAQ Completo',
+        'back': 'Voltar',
+        'faq-title': 'Perguntas Frequentes',
+        'faq1-q': '1. Posso copiar o texto gerado pela IA?', 'faq1-a': '<strong>Não!</strong> A KangaPro AI é um guia de aprendizado. Use as sugestões para construir seu próprio texto. Copiar é plágio e vai contra nossa ética.',
+        'faq2-q': '2. A IA segue as normas da ABNT?', 'faq2-a': 'Sim! Todas as orientações seguem as NBRs mais recentes: 14724 (trabalhos acadêmicos), 6023 (referências), 10520 (citações), entre outras.',
+        'faq3-q': '3. Funciona tanpa internet?', 'faq3-a': 'Não! Precisa de internet para o funcionamento. Mas sua conversa é salva localmente no navegador.',
+        'faq4-q': '4. Posso usar no celular?', 'faq4-a': 'Sim! Totalmente responsivo. Funciona em Android, iPhone e tablets.',
+        'faq5-q': '5. É grátis para sempre?', 'faq5-a': 'Sim! Uso ilimitado, sem cadastro, sem login. Totalmente gratuito.',
+        'faq6-q': '6. A IA gera o TCC inteiro?', 'faq6-a': '<strong>Nunca!</strong> Isso é antiético. A IA orienta, ensina e dá exemplos. O trabalho final é seu.',
+        'faq7-q': '7. Posso exportar em PDF?', 'faq7-a': 'Por agora Não! Mas essa funcionalidade será adicionada em breve.',
+        'faq8-q': '8. Quem somos nós?', 'faq8-a': 'Somos <strong>PROGRAMATHORs,</strong> uma Startup voltada para o desenvolvimento de soluções digitais, inovadoras e criativas, com foco a solucionar problemas reais evidentes na sociedade.',
+        'faq9-q': '9. A <strong>KangaPro AI</strong> Funciona para mestrado ou doutorado?', 'faq9-a': 'Sim! Adaptamos linguagem e profundidade conforme o nível acadêmico.',
+        'faq10-q': '10. Posso salvar meu progresso?', 'faq10-a': 'Sim! A conversa é salva automaticamente no navegador. Ao voltar, continua de onde parou.',
+        'faq11-q': '11. A IA pode revisar meu texto?', 'faq11-a': 'Sim! Cole seu rascunho no chat e peça sugestões de melhoria, coerência e ABNT.',
+        'faq12-q': '12. É seguro? Meus dados são salvos?', 'faq12-a': 'Sim! Nada é enviado a servidores. Tudo fica no seu navegador (LocalStorage).',
+        'faq13-q': '13. Posso usar em mais de um dispositivo?', 'faq13-a': 'Sim, mas a conversa não sincroniza. Cada dispositivo salva localmente.',
+        'faq14-q': '14. A IA entende português de Portugal?', 'faq14-a': 'Sim! Aceita PT-BR e PT-PT. Responde no mesmo padrão que você usar.',
+        'faq15-q': '15. Posso citar a KangaPro no meu TCC?', 'faq15-a': 'Sim! Sugerimos: "<strong>KangaPro AI (2025).</strong> Ferramenta de orientação acadêmica, concebida por <strong>PROGRAMATHORs.</strong>"',
+        'faq16-q': '16. A IA gera referências bibliográficas?', 'faq16-a': 'Sim! Em formato ABNT. Peça: "Monte 5 referências sobre educação inclusiva".',
+        'faq17-q': '17. Funciona para cursos técnicos?', 'faq17-a': 'Sim! Adaptamos para relatórios, projetos integradores e trabalhos de conclusão de curso técnico.',
+        'faq18-q': '18. Posso pedir um cronograma de estudos?', 'faq18-a': 'Sim! A IA monta um plano semanal com prazos realistas.',
+        'faq19-q': '19. A IA pode ajudar com a defesa oral?', 'faq19-a': 'Sim! Treine com perguntas simuladas e receba feedback sobre clareza e tempo.',
+        'faq20-q': '20. Por que escolher a KangaPro AI?', 'faq20-a': 'Porque somos <strong>éticos, gratuitos, atualizados com ABNT e focados no seu aprendizado real</strong>.',
+        'back-home': '← Voltar para Página Principal', 'start-now': 'Começar Agora',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. All right reserved*.'
+      },
+      en: {
+        'title': 'KangaPro AI - Full FAQ',
+        'back': 'Back',
+        'faq-title': 'Frequently Asked Questions',
+        'faq1-q': '1. Can I copy the text generated by AI?', 'faq1-a': '<strong>No!</strong> KangaPro AI is a learning guide. Use suggestions to build your own text. Copying is plagiarism and goes against our ethics.',
+        'faq2-q': '2. Does AI follow ABNT standards?', 'faq2-a': 'Yes! All guidance follows the latest NBRs: 14724 (academic papers), 6023 (references), 10520 (citations), among others.',
+        'faq3-q': '3. Works without internet?', 'faq3-a': 'No! Needs internet to work. But your chat is saved locally in the browser.',
+        'faq4-q': '4. Can I use on mobile?', 'faq4-a': 'Yes! Fully responsive. Works on Android, iPhone, and tablets.',
+        'faq5-q': '5. Is it free forever?', 'faq5-a': 'Yes! Unlimited use, no registration, no login. Completely free.',
+        'faq6-q': '6. Does AI generate the full TCC?', 'faq6-a': '<strong>Never!</strong> That’s unethical. AI guides, teaches, and gives examples. The final work is yours.',
+        'faq7-q': '7. Can I export to PDF?', 'faq7-a': 'Not yet! But this feature will be added soon.',
+        'faq8-q': '8. Who are we?', 'faq8-a': 'We are <strong>PROGRAMATHORs,</strong> a Startup focused on developing innovative and creative digital solutions to solve real societal problems.',
+        'faq9-q': '9. Does <strong>KangaPro AI</strong> work for master’s or PhD?', 'faq9-a': 'Yes! We adapt language and depth according to the academic level.',
+        'faq10-q': '10. Can I save my progress?', 'faq10-a': 'Yes! The chat is saved automatically in the browser. When you return, it continues from where you left off.',
+        'faq11-q': '11. Can AI review my text?', 'faq11-a': 'Yes! Paste your draft in the chat and ask for improvement suggestions, coherence, and ABNT.',
+        'faq12-q': '12. Is it safe? Are my data saved?', 'faq12-a': 'Yes! Nothing is sent to servers. Everything stays in your browser (LocalStorage).',
+        'faq13-q': '13. Can I use on multiple devices?', 'faq13-a': 'Yes, but the chat doesn’t sync. Each device saves locally.',
+        'faq14-q': '14. Does AI understand European Portuguese?', 'faq14-a': 'Yes! Accepts PT-BR and PT-PT. Responds in the same style you use.',
+        'faq15-q': '15. Can I cite KangaPro in my TCC?', 'faq15-a': 'Yes! We suggest: "<strong>KangaPro AI (2025).</strong> Academic guidance tool, created by <strong>PROGRAMATHORs.</strong>"',
+        'faq16-q': '16. Does AI generate bibliographic references?', 'faq16-a': 'Yes! In ABNT format. Ask: "Create 5 references on inclusive education".',
+        'faq17-q': '17. Works for technical courses?', 'faq17-a': 'Yes! Adapted for reports, integrated projects, and technical course completion works.',
+        'faq18-q': '18. Can I request a study schedule?', 'faq18-a': 'Yes! AI creates a realistic weekly plan with deadlines.',
+        'faq19-q': '19. Can AI help with oral defense?', 'faq19-a': 'Yes! Train with simulated questions and get feedback on clarity and timing.',
+        'faq20-q': '20. Why choose KangaPro AI?', 'faq20-a': 'Because we are <strong>ethical, free, updated with ABNT, and focused on your real learning</strong>.',
+        'back-home': '← Back to Home', 'start-now': 'Start Now',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. All rights reserved.'
+      },
+      es: {
+        'title': 'KangaPro AI - FAQ Completo',
+        'back': 'Volver',
+        'faq-title': 'Preguntas Frecuentes',
+        'faq1-q': '1. ¿Puedo copiar el texto generado por la IA?', 'faq1-a': '<strong>¡No!</strong> KangaPro AI es una guía de aprendizaje. Usa las sugerencias para construir tu propio texto. Copiar es plagio y va contra nuestra ética.',
+        'faq2-q': '2. ¿La IA sigue las normas ABNT?', 'faq2-a': '¡Sí! Todas las orientaciones siguen las NBR más recientes: 14724 (trabajos académicos), 6023 (referencias), 10520 (citas), entre otras.',
+        'faq3-q': '3. ¿Funciona sin internet?', 'faq3-a': '¡No! Necesita internet para funcionar. Pero tu conversación se guarda localmente en el navegador.',
+        'faq4-q': '4. ¿Puedo usar en el celular?', 'faq4-a': '¡Sí! Totalmente responsivo. Funciona en Android, iPhone y tablets.',
+        'faq5-q': '5. ¿Es gratis para siempre?', 'faq5-a': '¡Sí! Uso ilimitado, sin registro, sin login. Totalmente gratuito.',
+        'faq6-q': '6. ¿La IA genera el TCC completo?', 'faq6-a': '<strong>¡Nunca!</strong> Eso es antiético. La IA orienta, enseña y da ejemplos. El trabajo final es tuyo.',
+        'faq7-q': '7. ¿Puedo exportar a PDF?', 'faq7-a': '¡Por ahora no! Pero esta función será añadida pronto.',
+        'faq8-q': '8. ¿Quiénes somos?', 'faq8-a': 'Somos <strong>PROGRAMATHORs,</strong> una Startup enfocada en desarrollar soluciones digitales innovadoras y creativas para resolver problemas reales de la sociedad.',
+        'faq9-q': '9. ¿<strong>KangaPro AI</strong> funciona para maestría o doctorado?', 'faq9-a': '¡Sí! Adaptamos el lenguaje y profundidad según el nivel académico.',
+        'faq10-q': '10. ¿Puedo guardar mi progreso?', 'faq10-a': '¡Sí! La conversación se guarda automáticamente en el navegador. Al volver, continúa desde donde paraste.',
+        'faq11-q': '11. ¿La IA puede revisar mi texto?', 'faq11-a': '¡Sí! Pega tu borrador en el chat y pide sugerencias de mejora, coherencia y ABNT.',
+        'faq12-q': '12. ¿Es seguro? ¿Se guardan mis datos?', 'faq12-a': '¡Sí! Nada se envía a servidores. Todo queda en tu navegador (LocalStorage).',
+        'faq13-q': '13. ¿Puedo usar en más de un dispositivo?', 'faq13-a': 'Sí, pero la conversación no se sincroniza. Cada dispositivo guarda localmente.',
+        'faq14-q': '14. ¿La IA entiende portugués de Portugal?', 'faq14-a': '¡Sí! Acepta PT-BR y PT-PT. Responde en el mismo estilo que uses.',
+        'faq15-q': '15. ¿Puedo citar a KangaPro en mi TCC?', 'faq15-a': '¡Sí! Sugerimos: "<strong>KangaPro AI (2025).</strong> Herramienta de orientación académica, creada por <strong>PROGRAMATHORs.</strong>"',
+        'faq16-q': '16. ¿La IA genera referencias bibliográficas?', 'faq16-a': '¡Sí! En formato ABNT. Pide: "Crea 5 referencias sobre educación inclusiva".',
+        'faq17-q': '17. ¿Funciona para cursos técnicos?', 'faq17-a': '¡Sí! Adaptado para informes, proyectos integradores y trabajos de conclusión de curso técnico.',
+        'faq18-q': '18. ¿Puedo pedir un cronograma de estudios?', 'faq18-a': '¡Sí! La IA crea un plan semanal con plazos realistas.',
+        'faq19-q': '19. ¿La IA puede ayudar con la defensa oral?', 'faq19-a': '¡Sí! Entrena con preguntas simuladas y recibe feedback sobre claridad y tiempo.',
+        'faq20-q': '20. ¿Por qué elegir KangaPro AI?', 'faq20-a': 'Porque somos <strong>éticos, gratuitos, actualizados con ABNT y enfocados en tu aprendizaje real</strong>.',
+        'back-home': '← Volver a la Página Principal', 'start-now': 'Comenzar Ahora',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. Todos los derechos reservados.'
+      }
+    };
+
+    function changeLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      document.getElementById('title').textContent = translations[lang]['title'];
+      localStorage.setItem('lang', lang);
+    }
+
+    window.onload = () => {
+      const savedLang = localStorage.getItem('lang') || 'pt';
+      document.querySelector('.lang-select').value = savedLang;
+      changeLanguage(savedLang);
+    };
+  </script>
+
+</body>
+</html>

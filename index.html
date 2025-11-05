@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- SEO -->
+  <title id="title">KangaPro AI - Agente de Anteprojeto (rátis)</title>
+  <meta name="description" id="desc" content="Assistente IA gratuito que ensina a criar anteprojeto de TCC com ABNT. Nunca gera TCCs. Ética, passo a passo, PDF e mais.">
+  <meta name="theme-color" content="#00D9FF">
+
+  <!-- FAVICON -->
+  <link rel="icon" href="favicon/logo.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon/logo.ico" type="image/x-icon">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- LIBS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #0A1D37;
+      --neon: #00D9FF;
+      --white: #fff;
+      --gray: #B0E0E6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0A1D37, #1E3A5F);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10,29,55,0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: white;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 48px;
+      height: 48px;
+      margin-right: 10px;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 6px var(--neon));
+    }
+    .logo span { color: var(--neon); }
+
+    .nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .nav-desktop a {
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-desktop a:hover { color: var(--neon); }
+    .nav-desktop .lang-select {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--neon);
+      color: white;
+      padding: 0.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .nav-desktop .install-btn {
+      background: var(--neon);
+      color: #0A1D37;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 101;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .nav-mobile {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(10,29,55,0.98);
+      backdrop-filter: blur(12px);
+      padding: 6rem 2rem 2rem;
+      transition: right 0.4s ease;
+      z-index: 100;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+    }
+    .nav-mobile a {
+      display: block;
+      color: var(--gray);
+      font-size: 1.2rem;
+      margin: 1.2rem 0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-mobile a:hover { color: var(--neon); }
+    .nav-mobile .lang-select {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--neon);
+      color: white;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
+      margin: 1rem 0;
+    }
+    .nav-mobile .install-btn {
+      background: var(--neon);
+      color: #0A1D37;
+      padding: 0.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 5%;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, white, var(--neon));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero h1 span { color: var(--neon); }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      max-width: 700px;
+      margin: 1rem auto;
+      line-height: 1.7;
+    }
+    .hero p strong { color: white; }
+
+    .btn {
+      background: var(--neon);
+      color: #0A1D37;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0,217,255,0.6);
+    }
+
+    /* SECÇÕES */
+    .sobre, .steps, .faq {
+      padding: 5rem 5%;
+      text-align: center;
+    }
+    .sobre h2, .steps h2, .faq h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--neon);
+    }
+    .sobre p, .faq p {
+      font-size: 1.1rem;
+      color: var(--gray);
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,217,255,0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 300px;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--neon);
+    }
+    .card h3 { color: var(--neon); margin: 1rem 0; }
+
+    .faq-item {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 800px;
+      text-align: left;
+    }
+    .faq-item h4 { color: var(--neon); margin-bottom: 0.5rem; }
+    .faq-item p { font-size: 1rem; color: var(--gray); }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .chat-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--neon);
+      color: #0A1D37;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,217,255,0.5);
+      animation: pulse 2s infinite;
+      z-index: 999;
+      transition: all 0.3s ease;
+      font-size: 1.5rem;
+    }
+    .chat-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(0,217,255,0.8);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0,217,255,0.5); }
+      50% { box-shadow: 0 0 30px rgba(0,217,255,0.8); }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .cards { flex-direction: column; align-items: center; }
+      .nav-desktop { display: none; }
+      .hamburger { display: flex; }
+      .chat-float { width: 70px; height: 70px; bottom: 15px; right: 15px; font-size: 1.8rem; }
+    }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="/" class="logo">
+      <img src="assets/logo.png" alt="Logo KangaPro AI" width="48" height="48">
+      Kanga<span>Pro</span> AI
+    </a>
+
+    <!-- MENU DESKTOP -->
+    <nav class="nav-desktop">
+      <a href="#sobre" data-lang="about">Sobre</a>
+      <a href="#como" data-lang="how">Como Funciona</a>
+      <a href="#faq" data-lang="faq">FAQ</a>
+      <select class="lang-select" onchange="changeLanguage(this.value)">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+      </select>
+      <button class="install-btn" id="installBtnDesktop">Instalar App</button>
+    </nav>
+
+    <!-- HAMBURGUER -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- MENU MOBILE -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="#sobre" onclick="toggleMenu()" data-lang="about">Sobre</a>
+    <a href="#como" onclick="toggleMenu()" data-lang="how">Como Funciona</a>
+    <a href="#faq" onclick="toggleMenu()" data-lang="faq">FAQ</a>
+    <a href="chat.html" onclick="toggleMenu()" data-lang="start">Começar Agora</a>
+    
+    <select class="lang-select" onchange="changeLanguage(this.value); toggleMenu()">
+      <option value="pt">Português</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+    
+    <button class="install-btn" id="installBtnMobile">Instalar App</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 data-lang="hero-title">Seu TCC <span>Começa Aqui</span></h1>
+    <p data-lang="hero-p1">Comece a criar o seu Anteprojeto, agora mesmo, com auxílio de Inteligência Artificial.</p>
+    <button class="btn" onclick="location.href='chat.html'" data-lang="start-btn">Começar Agora</button>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="sobre" id="sobre" data-aos="fade-up">
+    <h2 data-lang="about-title">Sobre a KangaPro AI</h2>
+    <p data-lang="about-p1">A <strong>KangaPro AI</strong> é uma ferramenta inteligente, que ajuda estudantes a estruturar anteprojetos de TCC, de forma rápida e profissional.</p>
+    <p data-lang="about-p2">Ideal para cursos técnicos, licenciatura, pós-graduação e mestrado.</p>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="steps" id="como" data-aos="fade-up">
+    <h2 data-lang="how-title">Como Funciona</h2>
+    <div class="cards">
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <h3 data-lang="step1">1. Fale com a IA</h3>
+        <p data-lang="step1-p">Descreva seu tema e objetivos.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
+        <h3 data-lang="step2">2. Receba Orientação</h3>
+        <p data-lang="step2-p">Dicas e estrutura clara e completa em minutos.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="300">
+        <h3 data-lang="step3">3. Ajuste e entregue</h3>
+        <p data-lang="step3-p">Edite, aprenda e finalize com confiança.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq" data-aos="fade-up">
+    <h2 data-lang="faq-title">Perguntas Frequentes</h2>
+    <div class="faq-item">
+      <h4 data-lang="faq1-q">Posso copiar o texto gerado?</h4>
+      <p data-lang="faq1-a"><strong>Não!</strong> Use como base para aprender. O TCC deve ser seu. A IA é um professor, não um ghostwriter (escritor fantasma).</p>
+    </div>
+    <div class="faq-item">
+      <h4 data-lang="faq2-q">A IA segue ABNT?</h4>
+      <p data-lang="faq2-a">Sim! Todas as orientações seguem as normas mais recentes da ABNT (NBR 14724, 6023, etc).</p>
+    </div>
+    <div class="faq-item">
+      <h4 data-lang="faq3-q">Funciona offline?</h4>
+      <p data-lang="faq3-a"><strong>Não!</strong> Precisa de internet para o funcionamento, mas salva sua conversa localmente.</p>
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      <button class="btn" onclick="location.href='faq.html'" data-lang="more-faq" style="padding: 0.8rem 2rem; font-size: 1rem;">
+        Ver Mais Perguntas (20+)
+      </button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p data-lang="footer">© 2025 KangaPro AI. PROGRAMATHORs. All right reserved*.</p>
+  </footer>
+
+  <!-- CHAT FLOAT -->
+  <div class="chat-float" onclick="location.href='chat.html'">
+    <i class="fas fa-comment-dots"></i>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // AOS
+    AOS.init({ duration: 800, once: true });
+
+    // MENU MOBILE
+    function toggleMenu() {
+      const menu = document.getElementById('navMobile');
+      const hamburger = document.querySelector('.hamburger');
+      menu.style.right = menu.style.right === '0px' ? '-100%' : '0px';
+      hamburger.classList.toggle('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('navMobile');
+      const hamburger = document.querySelector('.hamburger');
+      if (menu && hamburger && e.target !== menu && !menu.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)) {
+        menu.style.right = '-100%';
+        hamburger.classList.remove('active');
+      }
+    });
+
+    // PWA INSTALL
+    let deferredPrompt;
+    const installBtnDesktop = document.getElementById('installBtnDesktop');
+    const installBtnMobile = document.getElementById('installBtnMobile');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtnDesktop.style.display = 'block';
+      installBtnMobile.style.display = 'block';
+    });
+
+    [installBtnDesktop, installBtnMobile].forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          btn.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+        });
+      }
+    });
+
+    // TRADUÇÃO
+    const translations = {
+      pt: {
+        'title': 'KangaPro AI - Agente de Anteprojeto (rátis)',
+        'desc': 'Assistente IA gratuito que ensina a criar anteprojeto de TCC com ABNT. Nunca gera TCCs. Ética, passo a passo, PDF e mais.',
+        'hero-title': 'Seu TCC <span>Começa Aqui</span>',
+        'hero-p1': 'Comece a criar o seu Anteprojeto, agora mesmo, com auxílio de Inteligência Artificial.',
+        'start-btn': 'Começar Agora',
+        'about': 'Sobre', 'how': 'Como Funciona', 'faq': 'FAQ', 'start': 'Começar Agora',
+        'about-title': 'Sobre a KangaPro AI',
+        'about-p1': 'A <strong>KangaPro AI</strong> é uma ferramenta inteligente, que ajuda estudantes a estruturar anteprojetos de TCC, de forma rápida e profissional.',
+        'about-p2': 'Ideal para cursos técnicos, licenciatura, pós-graduação e mestrado.',
+        'how-title': 'Como Funciona',
+        'step1': '1. Fale com a IA', 'step1-p': 'Descreva seu tema e objetivos.',
+        'step2': '2. Receba Orientação', 'step2-p': 'Dicas e estrutura clara e completa em minutos.',
+        'step3': '3. Ajuste e entregue', 'step3-p': 'Edite, aprenda e finalize com confiança.',
+        'faq-title': 'Perguntas Frequentes',
+        'faq1-q': 'Posso copiar o texto gerado?', 'faq1-a': '<strong>Não!</strong> Use como base para aprender. O TCC deve ser seu. A IA é um professor, não um ghostwriter (escritor fantasma).',
+        'faq2-q': 'A IA segue ABNT?', 'faq2-a': 'Sim! Todas as orientações seguem as normas mais recentes da ABNT (NBR 14724, 6023, etc).',
+        'faq3-q': 'Funciona offline?', 'faq3-a': '<strong>Não!</strong> Precisa de internet para o funcionamento, mas salva sua conversa localmente.',
+        'more-faq': 'Ver Mais Perguntas (20+)',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. All right reserved*.'
+      },
+      en: {
+        'title': 'KangaPro AI - Pre-Project Agent (Free)',
+        'desc': 'Free AI assistant that teaches how to create a TCC pre-project with ABNT. Never generates full TCCs. Ethics, step by step, PDF and more.',
+        'hero-title': 'Your TCC <span>Starts Here</span>',
+        'hero-p1': 'Start creating your Pre-Project right now, with Artificial Intelligence assistance.',
+        'start-btn': 'Start Now',
+        'about': 'About', 'how': 'How It Works', 'faq': 'FAQ', 'start': 'Get Started',
+        'about-title': 'About KangaPro AI',
+        'about-p1': '<strong>KangaPro AI</strong> is an intelligent tool that helps students structure TCC pre-projects quickly and professionally.',
+        'about-p2': 'Ideal for technical courses, undergraduate, postgraduate, and master’s programs.',
+        'how-title': 'How It Works',
+        'step1': '1. Talk to AI', 'step1-p': 'Describe your topic and objectives.',
+        'step2': '2. Get Guidance', 'step2-p': 'Tips and clear, complete structure in minutes.',
+        'step3': '3. Adjust and Submit', 'step3-p': 'Edit, learn, and finish with confidence.',
+        'faq-title': 'Frequently Asked Questions',
+        'faq1-q': 'Can I copy the generated text?', 'faq1-a': '<strong>No!</strong> Use it as a learning base. The TCC must be yours. AI is a teacher, not a ghostwriter.',
+        'faq2-q': 'Does AI follow ABNT?', 'faq2-a': 'Yes! All guidance follows the latest ABNT standards (NBR 14724, 6023, etc).',
+        'faq3-q': 'Works offline?', 'faq3-a': '<strong>No!</strong> Needs internet to work, but saves your chat locally.',
+        'more-faq': 'See More Questions (20+)',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. All rights reserved.'
+      },
+      es: {
+        'title': 'KangaPro AI - Agente de Anteproyecto (Gratis)',
+        'desc': 'Asistente IA gratuito que enseña a crear anteproyecto de TCC con ABNT. Nunca genera TCCs completos. Ética, paso a paso, PDF y más.',
+        'hero-title': 'Tu TCC <span>Comienza Aquí</span>',
+        'hero-p1': 'Comienza a crear tu Anteproyecto ahora mismo, con ayuda de Inteligencia Artificial.',
+        'start-btn': 'Comenzar Ahora',
+        'about': 'Acerca', 'how': 'Cómo Funciona', 'faq': 'FAQ', 'start': 'Comenzar Ahora',
+        'about-title': 'Acerca de KangaPro AI',
+        'about-p1': '<strong>KangaPro AI</strong> es una herramienta inteligente que ayuda a estudiantes a estructurar anteproyectos de TCC de forma rápida y profesional.',
+        'about-p2': 'Ideal para cursos técnicos, licenciatura, posgrado y maestría.',
+        'how-title': 'Cómo Funciona',
+        'step1': '1. Habla con la IA', 'step1-p': 'Describe tu tema y objetivos.',
+        'step2': '2. Recibe Orientación', 'step2-p': 'Consejos y estructura clara y completa en minutos.',
+        'step3': '3. Ajusta y entrega', 'step3-p': 'Edita, aprende y finaliza con confianza.',
+        'faq-title': 'Preguntas Frecuentes',
+        'faq1-q': '¿Puedo copiar el texto generado?', 'faq1-a': '<strong>¡No!</strong> Úsalo como base para aprender. El TCC debe ser tuyo. La IA es un profesor, no un ghostwriter.',
+        'faq2-q': '¿La IA sigue ABNT?', 'faq2-a': '¡Sí! Todas las orientaciones siguen las normas más recientes de ABNT (NBR 14724, 6023, etc).',
+        'faq3-q': '¿Funciona sin conexión?', 'faq3-a': '<strong>¡No!</strong> Necesita internet para funcionar, pero guarda tu conversación localmente.',
+        'more-faq': 'Ver Más Preguntas (20+)',
+        'footer': '© 2025 KangaPro AI. PROGRAMATHORs. Todos los derechos reservados.'
+      }
+    };
+
+    function changeLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      document.getElementById('title').textContent = translations[lang]['title'];
+      document.getElementById('desc').setAttribute('content', translations[lang]['desc']);
+      localStorage.setItem('lang', lang);
+    }
+
+    window.onload = () => {
+      const savedLang = localStorage.getItem('lang') || 'pt';
+      document.querySelectorAll('.lang-select').forEach(sel => sel.value = savedLang);
+      changeLanguage(savedLang);
+    };
+  </script>
+
+</body>
+</html>

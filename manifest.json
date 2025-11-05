@@ -1,0 +1,21 @@
+{
+  "name": "KangaPro AI - Guia Ético de TCC",
+  "short_name": "KangaPro",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A1D37",
+  "theme_color": "#00D9FF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

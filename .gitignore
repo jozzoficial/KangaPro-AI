@@ -1,0 +1,7 @@
+# Pastas e arquivos que NÃO devem ir para o GitHub
+
+# Ignorar módulos pesados do Node.js
+backend/node_modules
+
+# Ignorar o arquivo de chave secreta
+backend/.env
