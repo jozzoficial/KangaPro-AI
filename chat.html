@@ -201,7 +201,8 @@
     const chatContainer = document.getElementById('chat-container');
 
     // O endereço do seu servidor backend
-    const BACKEND_URL = 'http://localhost:3000/chat';
+    const BACKEND_URL = 'https://kangapro-ai-7azy.onrender.com/chat' || 'http://localhost:3000/chat';
+    // const BACKEND_URL = 'http://localhost:3000/chat';
 
     chatForm.addEventListener('submit', async (e) => {
       e.preventDefault(); // Impede o recarregamento da página

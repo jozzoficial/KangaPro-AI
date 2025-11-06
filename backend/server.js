@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000; 
 
 // Configurações
-app.use(cors()); // Permite que o chat.html chame este servidor
+app.use(cors({origin: ['https://kangapro-ai.netlify.app', 'https://localhost:3000']})); // Permite que o chat.html chame este servidor
 app.use(express.json()); // Permite ao servidor ler JSON
 
 // INSTRUÇÕES DO KANGAPRO AI
