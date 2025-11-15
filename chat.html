@@ -194,78 +194,196 @@
   </footer>
 
   <script>
-    //   LÓGICA DO CHAT 
-    
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatContainer = document.getElementById('chat-container');
+     //   LÓGICA DO CHAT + GERAÇÃO DE PDF
 
-    // O endereço do seu servidor backend
-    const BACKEND_URL = 'https://kangapro-ai-7azy.onrender.com/chat' || 'http://localhost:3000/chat';
-    // const BACKEND_URL = 'http://localhost:3000/chat';
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatContainer = document.getElementById('chat-container');
 
-    chatForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Impede o recarregamento da página
-      
-      const userInput = chatInput.value.trim();
-      if (!userInput) return; // Não envia mensagens vazias
+  // O endereço do seu servidor backend
+  const BACKEND_URL = 'https://kangapro-ai-7azy.onrender.com/chat';
 
-      // 1. Mostra a mensagem do usuário na tela
-      appendMessage('user', userInput);
-      chatInput.value = ''; // Limpa o input
+  // === ADICIONADO: CDN do pdfmake (geração de PDF) ===
+  const pdfMakeScript = document.createElement('script');
+  pdfMakeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js';
+  document.head.appendChild(pdfMakeScript);
 
-      // 2. Mostra um indicador de "digitando"
-      const typingIndicator = appendMessage('bot', 'Digitando...');
+  const vfsScript = document.createElement('script');
+  vfsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js';
+  document.head.appendChild(vfsScript);
 
-      try {
-        // 3. Envia a mensagem para o Backend
-        const response = await fetch(BACKEND_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ prompt: userInput }),
-        });
+  // === ADICIONADO: Botão Gerar PDF (sempre visível) ===
+  const pdfButton = document.createElement('button');
+  pdfButton.textContent = 'Gerar PDF';
+  pdfButton.style.cssText = `
+    position: fixed; bottom: 100px; right: 20px; z-index: 1000;
+    background: var(--neon-blue); color: var(--bg-dark); border: none;
+    padding: 12px 20px; border-radius: 50px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 0 15px rgba(0,217,255,0.5);
+    font-family: 'Poppins', sans-serif; font-size: 0.9rem;
+  `;
+  pdfButton.onclick = gerarPDF;
+  document.body.appendChild(pdfButton);
 
-        if (!response.ok) {
-          throw new Error('Erro na resposta do servidor.');
-        }
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userInput = chatInput.value.trim();
+    if (!userInput) return;
 
-        const data = await response.json();
-        
-        // 4. Substitui o "Digitando..." pela resposta real da IA
-        // O Gemini usa markdown (negrito **), então sei .innerHTML
-        // Também converti \n (nova linha) para <br>
-        const formattedReply = data.reply
-                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito
-                                    .replace(/\n/g, '<br>'); // Quebra de linha
+    appendMessage('user', userInput);
+    chatInput.value = '';
+    const typingIndicator = appendMessage('bot', 'Digitando...');
 
-        typingIndicator.innerHTML = `<pre>${data.reply}</pre>`; // 'pre' preserva a formatação
+    try {
+      const response = await fetch(BACKEND_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: userInput }),
+      });
 
-      } catch (error) {
-        console.error('Erro ao contatar o backend:', error);
-        typingIndicator.innerHTML = "Desculpe, não consegui me conectar. Tente novamente.";
-      }
+      if (!response.ok) throw new Error('Erro no servidor.');
+
+      const data = await response.json();
+      typingIndicator.innerHTML = `<pre>${data.reply}</pre>`;
+    } catch (error) {
+      console.error('Erro:', error);
+      typingIndicator.innerHTML = "Erro de conexão. Tente novamente.";
+    }
+  });
+
+  function appendMessage(sender, text) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', sender);
+    messageElement.innerHTML = text;
+    chatContainer.appendChild(messageElement);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    return messageElement;
+  }
+
+  // === FUNÇÃO PRINCIPAL: GERAR PDF ===
+  function gerarPDF() {
+    // Espera o pdfmake carregar
+    if (typeof pdfMake === 'undefined') {
+      alert('Aguarde o carregamento da ferramenta de PDF...');
+      return;
+    }
+
+    // Pega a última mensagem da IA
+    const botMessages = document.querySelectorAll('.message.bot');
+    if (botMessages.length === 0) {
+      alert('Nenhuma resposta da IA ainda.');
+      return;
+    }
+
+    const ultimaMensagem = botMessages[botMessages.length - 1];
+    let texto = ultimaMensagem.textContent || ultimaMensagem.innerText;
+
+    // === LIMPEZA DO TEXTO (remove introdução, frases extras, etc.) ===
+    const frasesLixo = [
+      'aqui está', 'segue o anteprojeto', 'pronto', 'gerado', 'conforme solicitado',
+      'este é o seu anteprojeto', 'aqui tens', 'aqui vai', 'resposta final',
+      'programathors', 'orientador', 'nkanga pedro'
+    ];
+    frasesLixo.forEach(frase => {
+      texto = texto.replace(new RegExp(frase, 'gi'), '');
     });
 
-    /**
-     * Adiciona uma nova mensagem ao container do chat
-     * @param {'user' | 'bot'} sender - Quem enviou
-     * @param {string} text - O texto da mensagem
-     * @returns {HTMLElement} - O elemento da mensagem criado
-     */
-    function appendMessage(sender, text) {
-      const messageElement = document.createElement('div');
-      messageElement.classList.add('message', sender);
-      messageElement.innerHTML = text; // Usamos innerHTML para o "Digitando..." e a resposta formatada
-      
-      chatContainer.appendChild(messageElement);
-      
-      // Rola para a mensagem mais recente
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-      
-      return messageElement;
+    // Remove tudo antes de "TEMA:"
+    const temaIndex = texto.toLowerCase().indexOf('tema:');
+    if (temaIndex === -1) {
+      alert('Nenhum anteprojeto encontrado (falta "TEMA:").');
+      return;
     }
+    texto = texto.substring(temaIndex);
+
+    // Remove nomes após "Por:" e "Orientador:"
+    texto = texto.replace(/Por:[\s\S]*?Orientador:/gi, 'Por:\n\nOrientador:');
+    texto = texto.replace(/Orientador:[\s\S]*?Uíge/gi, 'Orientador:\n\nUíge');
+
+    // Extrai título
+    const tituloMatch = texto.match(/TEMA:\s*([\s\S]*?)(?:\n\n|\nRESUMO|\nABSTRACT|$)/i);
+    const titulo = tituloMatch ? tituloMatch[1].trim().replace(/\s+/g, ' ') : 'Anteprojeto';
+
+    // Divide em seções
+    const secoes = [];
+    const linhas = texto.split('\n');
+    let secaoAtual = null;
+
+    const secoesEsperadas = ['RESUMO', 'ABSTRACT', 'INTRODUÇÃO', 'OBJETIVOS', 'DESENVOLVIMENTO', 'RESULTADOS', 'CONCLUSÃO'];
+
+    for (let linha of linhas) {
+      linha = linha.trim();
+      if (!linha) continue;
+
+      const ehTitulo = secoesEsperadas.some(s => linha.toUpperCase().startsWith(s)) ||
+                       /^[A-ZÁÉÍÓÚÃÕÇ\s]+:?$/i.test(linha);
+
+      if (ehTitulo && linha.toUpperCase() !== 'TEMA:') {
+        if (secaoAtual) secoes.push(secaoAtual);
+        secaoAtual = { titulo: linha.replace(/:$/, ''), conteudo: [] };
+      } else if (secaoAtual) {
+        secaoAtual.conteudo.push(linha);
+      }
+    }
+    if (secaoAtual) secoes.push(secaoAtual);
+
+    // === MONTA O PDF ===
+    const content = [
+      // === CAPA ===
+      { text: 'UNIVERSIDADE KIMPA VITA', style: 'header', alignment: 'center', margin: [0, 40, 0, 5] },
+      { text: 'INSTITUTO SUPERIOR POLITÉCNICO DO UÍGE', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 5] },
+      { text: 'CURSO DE LICENCIATURA EM ENGENHARIA INFORMÁTICA', style: 'subheader', alignment: 'center', margin: [0, 0, 0, 40] },
+
+      { text: 'ANTEPROJETO', style: 'title', alignment: 'center', margin: [0, 0, 0, 30] },
+
+      { text: `TEMA: ${titulo}`, style: 'tema', alignment: 'center', margin: [0, 0, 0, 40] },
+
+      { text: 'Por:', style: 'label', alignment: 'center' },
+      { text: '\n', margin: [0, 0, 0, 20] },
+
+      { text: 'Orientador:', style: 'label', alignment: 'center' },
+      { text: '\n', margin: [0, 0, 0, 40] },
+
+      { text: 'Uíge, Novembro de 2025', style: 'data', alignment: 'center' },
+
+      { text: '', pageBreak: 'after' },
+
+      // === CONTEÚDO ===
+      ...secoes.map(sec => [
+        { text: sec.titulo, style: 'sectionTitle', margin: [0, 20, 0, 10] },
+        { text: sec.conteudo.join('\n'), style: 'body', margin: [0, 0, 0, 15] }
+      ]).flat()
+    ];
+
+    const docDefinition = {
+      pageSize: 'A4',
+      pageMargins: [40, 60, 40, 60],
+      header: () => ({ text: '', margin: [40, 20] }),
+      footer: (currentPage, pageCount) => ({
+        text: `Página ${currentPage} de ${pageCount}`,
+        alignment: 'center',
+        margin: [0, 20, 0, 0],
+        fontSize: 9,
+        color: '#666'
+      }),
+      content,
+      styles: {
+        header: { fontSize: 14, bold: true, color: '#1e40af' },
+        subheader: { fontSize: 12, italics: true, color: '#1e40af' },
+        title: { fontSize: 18, bold: true, color: '#1e40af' },
+        tema: { fontSize: 12, lineHeight: 1.5 },
+        label: { fontSize: 12, bold: true },
+        data: { fontSize: 12, italics: true },
+        sectionTitle: { fontSize: 13, bold: true, color: '#1e40af' },
+        body: { fontSize: 11, lineHeight: 1.6 }
+      },
+      defaultStyle: { font: 'Roboto', columnGap: 20 }
+    };
+
+    // Gera e baixa o PDF
+    const nomeArquivo = `Anteprojeto_${titulo.replace(/[^a-z0-9]/gi, '_').substring(0, 30)}.pdf`;
+    pdfMake.createPdf(docDefinition).download(nomeArquivo);
+  }
   </script>
 
 </body>
